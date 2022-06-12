@@ -22,6 +22,8 @@ $router  = new Router();
 $request = new Request($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']); 
 $config  = new Config($_ENV);
 
-$router->register('GET', '/', [HomeController::class, 'index']);
+$router->register('GET',  '/', [HomeController::class, 'index'])
+       ->register('POST', '/transactions', [HomeController::class, 'uploadTransactions'])
+       ->register('GET',  '/transactions', [HomeController::class, 'viewTransactions']);
 
 (new App($router, $request, $config))->run();

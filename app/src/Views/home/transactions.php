@@ -7,9 +7,8 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="/transactions" method="POST" enctype="multipart/form-data">
-        <input type="file" name="transaction_files[]" multiple/>
-        <button type="submit">UPLOAD</button>
-    </form>
+    <pre>
+        <?php print_r($transactions ?? []); ?>
+    </pre>
 </body>
 </html>
