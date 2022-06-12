@@ -35,4 +35,8 @@ class Router
         [$className, $method] = $callback;
         return call_user_func([new $className(), $method]);
     }
+
+    public function routes() : array{
+        return $this->routes;
+    }
 }
