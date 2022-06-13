@@ -22,7 +22,7 @@ $dotenv->load();
 $router    = new Router();
 $request   = new Request($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']); 
 $config    = new Config($_ENV);
-$container = new Container(); 
+$container = new Container();
 
 $router->register('GET', '/', [HomeController::class, 'index']);
 
