@@ -12,6 +12,17 @@ use ReflectionClass;
 class Container implements ContainerInterface
 {
     private $entries = [];
+    private static $instance = null;
+
+    private function __construct() {}
+
+    public static function init() : static {
+        if(!static::$instance){
+            static::$instance = new static();
+        }
+
+        return static::$instance;
+    }
 
     public function get(string $id) { 
         if($this->has($id)){

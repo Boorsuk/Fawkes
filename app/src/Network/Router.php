@@ -4,12 +4,19 @@ declare(strict_types = 1);
 
 namespace Fawkes\Network;
 
+use Fawkes\Container;
 use Fawkes\Exceptions\RouteNotFoundException;
 use Fawkes\Network\Request;
+use Psr\Container\NotFoundExceptionInterface;
 
 class Router
 {
-    protected $routes = [];
+    protected array $routes = [];
+    private Container $container;
+
+    public function __construct(Container $container) {
+        $this->container = $container;        
+    }
 
     public function register(string $method, string $uri, array|callable $callback) : self{
         $method = mb_strtoupper($method);
@@ -33,7 +40,14 @@ class Router
         }
 
         [$className, $method] = $callback;
-        return call_user_func([new $className(), $method]);
+
+        try {
+            $classInstance = $this->container->get($className);
+        } catch (NotFoundExceptionInterface) {
+            $classInstance = new $className();    
+        }
+
+        return call_user_func([$classInstance, $method]);
     }
 
     public function routes() : array{

@@ -6,8 +6,11 @@ use Fawkes\App;
 use Fawkes\Config;
 use Fawkes\Container;
 use Fawkes\Controllers\HomeController;
+use Fawkes\Controllers\UsersController;
+use Fawkes\Models\HomeModel;
 use Fawkes\Network\Request;
 use Fawkes\Network\Router;
+use Fawkes\Services\HomeService;
 
 $root = __DIR__ . DIRECTORY_SEPARATOR;
 
@@ -19,11 +22,24 @@ define('VIEW_PATH', APP_PATH . 'Views' . DIRECTORY_SEPARATOR);
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-$router    = new Router();
+$container = Container::init();
+$router    = new Router($container);
 $request   = new Request($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']); 
 $config    = new Config($_ENV);
-$container = new Container();
 
-$router->register('GET', '/', [HomeController::class, 'index']);
+$container->bind(HomeModel::class, function(Container $container){
+    return new HomeModel();
+});
+
+$container->bind(HomeService::class, function(Container $container){
+    return new HomeService($container->get(HomeModel::class));
+});
+
+$container->bind(HomeController::class, function(Container $container){
+    return new HomeController($container->get(HomeService::class));
+});
+
+$router->register('GET', '/', [HomeController::class, 'index'])
+       ->register('GET', '/users', [UsersController::class, 'index']);
 
 (new App($router, $request, $config))->run();

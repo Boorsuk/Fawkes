@@ -1,1 +1,3 @@
-default home view 
+<?php
+    echo $msg;
+?>
