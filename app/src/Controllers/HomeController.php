@@ -11,7 +11,7 @@ class HomeController
 {
     private HomeService $homeService;
 
-    public function __construct(HomeService $homeService) {
+    public function __construct(HomeService $homeService, int $sadge = 5) {
         $this->homeService = $homeService;
     }
 
