@@ -27,18 +27,6 @@ $router    = new Router($container);
 $request   = new Request($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']); 
 $config    = new Config($_ENV);
 
-$container->bind(HomeModel::class, function(Container $container){
-    return new HomeModel();
-});
-
-$container->bind(HomeService::class, function(Container $container){
-    return new HomeService($container->get(HomeModel::class));
-});
-
-$container->bind(HomeController::class, function(Container $container){
-    return new HomeController($container->get(HomeService::class));
-});
-
 $router->register('GET', '/', [HomeController::class, 'index'])
        ->register('GET', '/users', [UsersController::class, 'index']);
 
