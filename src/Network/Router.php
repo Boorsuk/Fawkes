@@ -7,7 +7,6 @@ namespace Fawkes\Network;
 use Fawkes\Container;
 use Fawkes\Exceptions\RouteNotFoundException;
 use Fawkes\Network\Request;
-use Psr\Container\NotFoundExceptionInterface;
 
 class Router
 {

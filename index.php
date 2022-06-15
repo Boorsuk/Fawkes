@@ -8,10 +8,8 @@ use Fawkes\Container;
 use Fawkes\Controllers\HomeController;
 use Fawkes\Controllers\UsersController;
 use Fawkes\Interfaces\UsersServiceInterface;
-use Fawkes\Models\HomeModel;
 use Fawkes\Network\Request;
 use Fawkes\Network\Router;
-use Fawkes\Services\HomeService;
 use Fawkes\Services\UsersService;
 
 $root = __DIR__ . DIRECTORY_SEPARATOR;
