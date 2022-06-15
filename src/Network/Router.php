@@ -41,12 +41,7 @@ class Router
 
         [$className, $method] = $callback;
 
-        try {
-            $classInstance = $this->container->get($className);
-        } catch (NotFoundExceptionInterface) {
-            $classInstance = new $className();    
-        }
-
+        $classInstance = $this->container->get($className);
         return call_user_func([$classInstance, $method]);
     }
 

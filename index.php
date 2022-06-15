@@ -7,10 +7,12 @@ use Fawkes\Config;
 use Fawkes\Container;
 use Fawkes\Controllers\HomeController;
 use Fawkes\Controllers\UsersController;
+use Fawkes\Interfaces\UsersServiceInterface;
 use Fawkes\Models\HomeModel;
 use Fawkes\Network\Request;
 use Fawkes\Network\Router;
 use Fawkes\Services\HomeService;
+use Fawkes\Services\UsersService;
 
 $root = __DIR__ . DIRECTORY_SEPARATOR;
 
@@ -26,6 +28,8 @@ $container = Container::init();
 $router    = new Router($container);
 $request   = new Request($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']); 
 $config    = new Config($_ENV);
+
+$container->bind(UsersServiceInterface::class, UsersService::class);
 
 $router->register('GET', '/', [HomeController::class, 'index'])
        ->register('GET', '/users', [UsersController::class, 'index']);
