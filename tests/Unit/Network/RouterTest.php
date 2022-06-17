@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Tests\Network\Unit;
+namespace Tests\Unit\Network;
 
 use Fawkes\Container;
 use Fawkes\Network\Router;
