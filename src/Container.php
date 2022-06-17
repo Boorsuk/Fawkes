@@ -94,4 +94,14 @@ class Container implements ContainerInterface
 
         return $reflectionClass->newInstanceArgs($dependencies);
     }
+
+    public function entries() : array
+    {
+        return $this->entries;
+    }
+
+    public function flush() : void
+    {
+        $this->entries = [];
+    }
 }
