@@ -6,7 +6,7 @@ namespace Fawkes\Exceptions;
 
 use Psr\Container\NotFoundExceptionInterface;
 
-class DependencyNotFound extends \Exception implements NotFoundExceptionInterface
+class EntryNotFound extends \Exception implements NotFoundExceptionInterface
 {
     
 }

@@ -4,8 +4,10 @@ declare(strict_types = 1);
 
 namespace Fawkes;
 
+use Fawkes\Exceptions\BuiltinTypeOccuredException;
 use Fawkes\Exceptions\ContainerException;
-use Fawkes\Exceptions\DependencyNotFound;
+use Fawkes\Exceptions\EntryNotFound;
+use Fawkes\Exceptions\MissingTypeHintException;
 use Psr\Container\ContainerInterface;
 
 class Container implements ContainerInterface
@@ -39,7 +41,7 @@ class Container implements ContainerInterface
             return $resolvedEntry;
         }
 
-        throw new DependencyNotFound('Missing entry for: '.$id);
+        throw new EntryNotFound('Missing entry for: '.$id);
     }
 
     public function has(string $id): bool { 
@@ -54,13 +56,13 @@ class Container implements ContainerInterface
         // 1. get class by reflection
         try {
             $reflectionClass = new \ReflectionClass($id);
-        } catch (\ReflectionException $e) {
-            throw new ContainerException($e->getMessage());
+        } catch (\ReflectionException) {
+            return null;
         }
 
         // 2. check if is instantiable
         if(!$reflectionClass->isInstantiable()){
-            throw new DependencyNotFound("Missing binding for interface ${id}");
+            throw new ContainerException("Missing binding for interface ${id}");
         }
 
         // 3. get constructor and it's parameters
@@ -77,12 +79,12 @@ class Container implements ContainerInterface
             $reflectionType = $parameter->getType();
 
             if(!$reflectionType){
-                throw new ContainerException("Missing type hinting in ${id}");
+                throw new MissingTypeHintException("Missing type hinting in ${id}");
             }
             
             if($reflectionType->isBuiltin()){
                 if(!$parameter->isDefaultValueAvailable()){
-                    throw new ContainerException("found builtin type: ".$reflectionType->getName()." without default value in ${id}");    
+                    throw new BuiltinTypeOccuredException("found builtin type: ".$reflectionType->getName()." without default value in ${id}");    
                 }
 
                 $dependencies[] = $parameter->getDefaultValue();
