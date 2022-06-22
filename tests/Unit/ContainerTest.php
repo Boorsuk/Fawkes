@@ -16,6 +16,7 @@ use Tests\Lego\Interfaces\DummyInterface;
 use function PHPUnit\Framework\assertEmpty;
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertInstanceOf;
+use function PHPUnit\Framework\assertIsArray;
 use function PHPUnit\Framework\assertNull;
 use function PHPUnit\Framework\assertSame;
 use function PHPUnit\Framework\assertTrue;
@@ -38,10 +39,11 @@ class ContainerTest extends TestCase
     /**
      * @test
      */
-    public function entries_should_return_empty_entries_on_first_init()
+    public function entries_should_return_empty_array_on_first_init()
     {
         $entries = $this->container->entries();
 
+        assertIsArray($entries);
         assertEmpty($entries);
     }
 
