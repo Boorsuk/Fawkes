@@ -29,7 +29,8 @@ $config    = new Config($_ENV);
 
 $container->bind(UsersServiceInterface::class, UsersService::class);
 
-$router->register('GET', '/', [HomeController::class, 'index'])
-       ->register('GET', '/users', [UsersController::class, 'index']);
+$router->register('GET', '/users', [UsersController::class, 'index']);
+
+$router->registerRoutesFromControllerAttributes(...[HomeController::class]);
 
 (new App($router, $request, $config))->run();

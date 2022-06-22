@@ -4,6 +4,8 @@ declare(strict_types = 1);
 
 namespace Fawkes\Controllers;
 
+use Fawkes\Attributes\Route;
+use Fawkes\Enums\HttpMethod;
 use Fawkes\Services\HomeService;
 use Fawkes\View;
 
@@ -15,6 +17,7 @@ class HomeController
         $this->homeService = $homeService;
     }
 
+    #[Route(HttpMethod::GET, '/')]
     public function index(){
         $msg = $this->homeService->fetchHomeData();
 
