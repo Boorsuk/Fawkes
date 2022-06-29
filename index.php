@@ -7,6 +7,7 @@ use Fawkes\Config;
 use Fawkes\Container;
 use Fawkes\Controllers\HomeController;
 use Fawkes\Controllers\UsersController;
+use Fawkes\Enums\HttpMethod;
 use Fawkes\Interfaces\UsersServiceInterface;
 use Fawkes\Network\Request;
 use Fawkes\Network\Router;
@@ -24,12 +25,12 @@ $dotenv->load();
 
 $container = Container::init();
 $router    = new Router($container);
-$request   = new Request($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']); 
+$request   = Request::capture(); 
 $config    = new Config($_ENV);
 
 $container->bind(UsersServiceInterface::class, UsersService::class);
 
-$router->register('GET', '/users', [UsersController::class, 'index']);
+$router->register(HttpMethod::GET, '/users', [UsersController::class, 'index']);
 
 $router->registerRoutesFromControllerAttributes(...[HomeController::class]);
 

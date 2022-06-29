@@ -6,6 +6,7 @@ namespace Fawkes\Network;
 
 use Fawkes\Attributes\Route;
 use Fawkes\Container;
+use Fawkes\Enums\HttpMethod;
 use Fawkes\Exceptions\RouteNotFoundException;
 use Fawkes\Network\Request;
 
@@ -18,10 +19,9 @@ class Router
         $this->container = $container;        
     }
 
-    public function register(string $method, string $uri, array|callable $callback) : self{
-        $method = mb_strtoupper($method);
+    public function register(HttpMethod $method, string $uri, array|callable $callback) : self{
 
-        $this->routes[$method][$uri] = $callback;
+        $this->routes[$method->value][$uri] = $callback;
         return $this;
     }
 

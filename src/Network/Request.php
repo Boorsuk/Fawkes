@@ -4,16 +4,18 @@ declare(strict_types = 1);
 
 namespace Fawkes\Network;
 
+use Fawkes\Enums\HttpMethod;
+
 class Request
 {
-    private string $method;
+    private HttpMethod $method;
 
     private string $uri;
 
     private array $queryParams = [];
 
-    public function __construct(string $method, string $uri){
-        $this->method = mb_strtoupper($method);
+    private function __construct(HttpMethod $method, string $uri){
+        $this->method = $method;
         
         $uriArr = explode('?', $uri);
         $this->uri = $uriArr[0];
@@ -24,11 +26,18 @@ class Request
         }
     }
 
-    public function getMethod() : string{
+    public function getMethod() : HttpMethod{
         return $this->method;
     }
 
     public function getUri() : string{
         return $this->uri;
+    }
+
+    public static function capture() {
+        $uri    = $_SERVER['REQUEST_URI'];
+        $method = HttpMethod::tryFrom(strtoupper($_SERVER['REQUEST_METHOD']));
+
+        return new static($method, $uri);
     }
 }
