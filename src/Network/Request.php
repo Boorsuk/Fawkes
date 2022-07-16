@@ -34,6 +34,10 @@ class Request
         return $this->uri;
     }
 
+    public function params() : array {
+        return $this->queryParams;
+    }
+
     public static function capture() {
         $uri    = $_SERVER['REQUEST_URI'];
         $method = HttpMethod::tryFrom(strtoupper($_SERVER['REQUEST_METHOD']));

@@ -42,7 +42,8 @@ class Router
         [$className, $classMethod] = $callback;
 
         $classInstance = $this->container->get($className);
-        return call_user_func([$classInstance, $classMethod]);
+        /** @todo obsluga parametrow i przekazywanie requestu tylko jak metoda oczekuje Obieku Fawkes\Request */
+        return call_user_func_array([$classInstance, $classMethod], [$request]);
     }
 
     public function registerRoutesFromControllerAttributes(string ...$controllers) : void
