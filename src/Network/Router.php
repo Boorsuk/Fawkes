@@ -29,7 +29,7 @@ class Router
         $method = $request->getMethod();
         $uri    = $request->getUri();
 
-        $callback = $this->routes[$method][$uri] ?? null;
+        $callback = $this->routes[$method->value][$uri] ?? null;
         
         if(!$callback){
             throw new RouteNotFoundException();
@@ -39,10 +39,10 @@ class Router
             return $callback($request);
         }
 
-        [$className, $method] = $callback;
+        [$className, $classMethod] = $callback;
 
         $classInstance = $this->container->get($className);
-        return call_user_func([$classInstance, $method]);
+        return call_user_func([$classInstance, $classMethod]);
     }
 
     public function registerRoutesFromControllerAttributes(string ...$controllers) : void
@@ -63,7 +63,7 @@ class Router
                     /** @var Route */
                     $route = $attribute->newInstance();
 
-                    $this->register($route->method()->toString(), $route->uri(), [$controller, $method->getName()]);
+                    $this->register($route->method(), $route->uri(), [$controller, $method->getName()]);
                 }
             }
         }
