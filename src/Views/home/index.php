@@ -1,13 +1,8 @@
 <?php
-    /** @var string $msg */
-    /** @var array $params */
-
-    echo $msg;
-
-    if(!empty($params)){
-        echo '<br/>';
-        echo '<pre>';
-        print_r($params);
-        echo '</pre>';
-    }
+    $x = 'ala';
+    echo $x; echo '<br>';
+    $x++;
+    $x++;
+    $x--;
+    echo $x;
 ?>
